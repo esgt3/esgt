@@ -22,7 +22,7 @@ export const BENEFITS = [
 // Pas deze antwoorden aan naar jouw situatie
 export const FAQ = [
   ['Welke afbeeldingen kan ik uploaden?', 'PNG, JPG of WebP tot 5 MB.'],
-  ['Hoe snel wordt mijn reclame getoond?', 'Dit antwoord vul je zelf in (src/lib/data.js).'],
+  ['Hoe snel wordt mijn reclame getoond?', 'Het zou ongeveer een week duren om een reclame te maken.'],
   ['Hoe betaal ik?', 'Online betalen is nog niet actief. Zodra Mollie of Stripe is gekoppeld, reken je af na je bestelling.'],
-  ['Kan ik mijn reclame later wijzigen?', 'Dit antwoord vul je zelf in (src/lib/data.js).'],
+  ['Kan ik mijn reclame later wijzigen?', 'U kunt uw reclame altijd laten wijzigen, jammer genoeg gaat u dan wel moeten bijbetalen'],
 ]
