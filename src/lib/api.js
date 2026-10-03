@@ -1,7 +1,7 @@
 // Bestellingen en contactberichten worden via Web3Forms naar jouw e-mail gestuurd.
 // 1) Vraag op https://web3forms.com een gratis access key aan voor elias.esgt@gmail.com
 // 2) Plak die key hieronder. (Deze key is bedoeld om publiek in de site te staan.)
-const ACCESS_KEY = 'PLAK_HIER_JE_ACCESS_KEY'
+const ACCESS_KEY = '29e67bd3-c19b-4bb2-979c-439cae5d4e16'
 // Bijlagen (de reclame-afbeelding) kan Web3Forms alleen in een betaald plan versturen.
 // Heb je dat, zet dit dan op true.
 export const ATTACHMENTS_ENABLED = false
