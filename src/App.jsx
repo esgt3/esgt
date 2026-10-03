@@ -116,8 +116,8 @@ function Contact() {
     <section id="contact" className="sec">
       <h2>Contact</h2>
       <div className="grid contact">
-        <div className="card"><h3>Neem contact op</h3><p>E-mail: <a href="mailto:info@esgt.example">info@esgt.example</a></p>
-          <p className="socials"><a href="#" aria-label="Instagram">Instagram</a><a href="#" aria-label="LinkedIn">LinkedIn</a><a href="#" aria-label="X">X</a></p></div>
+          <div className="card"><h3>Neem contact op</h3><p>E-mail: <a href="mailto:elias.esgt@gmail.com">elias.esgt@gmail.com</a></p>
+     <p className="socials"><a href="https://www.instagram.com/elias.esgt" target="_blank" rel="noopener noreferrer">Instagram</a></p></div>
         <form className="card" onSubmit={submit} noValidate>
           <Field id="c-name" label="Naam" error={e.name}><input id="c-name" value={f.name} onChange={set('name')} aria-invalid={!!e.name} /></Field>
           <Field id="c-email" label="E-mailadres" error={e.email}><input id="c-email" type="email" value={f.email} onChange={set('email')} aria-invalid={!!e.email} /></Field>
