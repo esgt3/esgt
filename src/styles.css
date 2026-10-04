@@ -43,3 +43,5 @@ h2.mut,.mut{color:var(--mut)}.narrow{max-width:760px}
    .brand img{width:40px;height:40px;border-radius:11px}
    .logo-wrap img{position:relative;width:min(340px,75%);border-radius:36px;box-shadow:0 0 0 1px #ffffff14;animation:float 6s ease-in-out infinite}
 .ad-img{position:relative}.tag{position:absolute;top:12px;left:12px;background:#05060bcc;color:var(--tx);font-size:.75rem;padding:3px 12px;border-radius:999px;border:1px solid var(--line)}
+.ad-img{position:relative;height:auto;aspect-ratio:16/9;overflow:hidden}
+.ad-img video,.ad-img iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;border:0}
