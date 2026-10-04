@@ -21,7 +21,7 @@ async function send(fields, file) {
   return json
 }
 
-export const submitOrder = (o) =>
+   const submitOrderMail = (o) =>
   send({
     subject: `Nieuwe ESGT-bestelling: ${o.packageName} (${o.company})`,
     from_name: 'ESGT website',
@@ -34,4 +34,25 @@ export const submitOrder = (o) =>
 export const sendContact = (d) =>
   send({ subject: `ESGT contactformulier: ${d.name}`, from_name: 'ESGT website', name: d.name, email: d.email, message: d.msg })
   //What the sigma
-  
+     // EmailJS: automatische bevestiging naar de klant
+   const EMAILJS = { service: 'service_l7rsd3a', template: 'template_64az85s', key: 'a_xmG63wB973mAhnR' }
+
+   async function sendConfirmation(o) {
+     if (EMAILJS.key.startsWith('JOUW')) return
+     try {
+       await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({
+           service_id: EMAILJS.service, template_id: EMAILJS.template, user_id: EMAILJS.key,
+           template_params: { to_name: o.name, to_email: o.email, pakket: o.packageName, prijs: `€${o.price}`, bedrijf: o.company, afbeelding: o.image ? o.image.name : '' },
+         }),
+       })
+     } catch (e) { console.error(e) }
+   }
+
+   export async function submitOrder(o) {
+     const res = await submitOrderMail(o)
+     sendConfirmation(o) // mislukt dit, dan blijft je bestelling toch gelukt
+     return res
+   }
