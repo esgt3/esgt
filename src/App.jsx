@@ -41,7 +41,7 @@ function Ads() {
       <div className="grid ads">
         {list.map((a) => (
           <article key={a.company} className="card ad">
-            <div className="ad-img" style={{ background: `linear-gradient(135deg,hsl(${a.hue} 80% 55%),hsl(${a.hue + 50} 70% 25%))` }} role="img" aria-label={`Voorbeeldafbeelding ${a.company}`}>   <b>Ad</b><span className="tag">Voorbeeld</span></div>
+            <div className="ad-img" style={{ background: `linear-gradient(135deg,hsl(${a.hue} 80% 55%),hsl(${a.hue + 50} 70% 25%))` }} role="img" aria-label={`Voorbeeldafbeelding ${a.company}`}>   {a.videoFile ? <video src={a.videoFile} controls muted playsInline preload="metadata" /> : <b>Ad</b>}<span className="tag">Voorbeeld</span></div>
             <h3>{a.company}</h3><p>{a.text}</p>
                {a.link && <a href={a.link} target="_blank" rel="noopener noreferrer">Bezoek website</a>}
           </article>
