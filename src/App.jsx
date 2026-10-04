@@ -36,14 +36,14 @@ function Ads() {
   const list = cat === 'Alles' ? ADS : ADS.filter((a) => a.cat === cat)
   return (
     <section id="advertenties" className="sec">
-      <h2>Advertenties</h2><p className="lead">Zo zien jouw reclameplaatsingen eruit. Voorbeelden ter illustratie.</p>
+      <h2>Advertenties</h2><p className="lead">   Dit zijn voorbeeldadvertenties, geen echte bedrijven. Zo kan jouw reclame eruitzien.</p>
       <div className="tabs" role="group" aria-label="Filter op categorie">{CATS.map((c) => <button key={c} aria-pressed={c === cat} onClick={() => setCat(c)}>{c}</button>)}</div>
       <div className="grid ads">
         {list.map((a) => (
           <article key={a.company} className="card ad">
-            <div className="ad-img" style={{ background: `linear-gradient(135deg,hsl(${a.hue} 80% 55%),hsl(${a.hue + 50} 70% 25%))` }} role="img" aria-label={`Voorbeeldafbeelding ${a.company}`}><b>{a.company[0]}</b></div>
+            <div className="ad-img" style={{ background: `linear-gradient(135deg,hsl(${a.hue} 80% 55%),hsl(${a.hue + 50} 70% 25%))` }} role="img" aria-label={`Voorbeeldafbeelding ${a.company}`}>   <b>Ad</b><span className="tag">Voorbeeld</span></div>
             <h3>{a.company}</h3><p>{a.text}</p>
-            <a href={a.link} target="_blank" rel="noopener noreferrer">Bezoek website</a>
+               {a.link && <a href={a.link} target="_blank" rel="noopener noreferrer">Bezoek website</a>}
           </article>
         ))}
       </div>
