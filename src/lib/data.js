@@ -9,7 +9,7 @@ export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 // Voorbeeldadvertenties (placeholders, vervang door echte data uit een API)
  export const ADS = [
   { company: 'Voorbeeld: webdesign', text: 'Hier komt jouw korte beschrijving. Vertel in een of twee zinnen wat je doet.', hue: 200, cat: 'Design', videoFile: '/webdesign.mp4.mp4' },
-  { company: 'Voorbeeld: lokale winkel', text: 'Zo kan jouw reclame eruitzien, met een afbeelding, naam en tekst.', hue: 260, cat: 'Lokaal', videoFile: '/lokale-winkel.mp4' },
+  { company: 'Voorbeeld: lokale winkel', text: 'Zo kan jouw reclame eruitzien, met een afbeelding, naam en tekst.', hue: 260, cat: 'Lokaal', videoFile: '/lokale winkel.mp4' },
   { company: 'Voorbeeld: horecazaak', text: 'Jouw reclame komt op een nette kaart te staan.', hue: 160, cat: 'Lokaal' },
   { company: 'Voorbeeld: creatief bureau', text: 'Hier kan ook jouw bedrijf of project staan.', hue: 310, cat: 'Design' },
 ]
