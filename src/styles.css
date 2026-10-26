@@ -45,3 +45,5 @@ h2.mut,.mut{color:var(--mut)}.narrow{max-width:760px}
 .ad-img{position:relative}.tag{position:absolute;top:12px;left:12px;background:#05060bcc;color:var(--tx);font-size:.75rem;padding:3px 12px;border-radius:999px;border:1px solid var(--line)}
 .ad-img{position:relative;height:auto;aspect-ratio:16/9;overflow:hidden}
 .ad-img video,.ad-img iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;border:0}
+.group{margin:40px 0 18px;font-size:1.2rem;color:var(--mut)}
+@media(min-width:900px){.price.two{max-width:calc(66.667% - 7px)}}
