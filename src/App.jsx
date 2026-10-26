@@ -67,19 +67,22 @@ const Cta = ({ onBuy }) => (
   <section className="sec"><div className="cta"><h2>Klaar om op te vallen?</h2><p>Kies een pakket en stuur je reclame in.</p><button className="btn primary" onClick={() => onBuy()}>Koop reclame</button></div></section>
 )
 
+const Plan = ({ p, onBuy }) => (
+  <article className={`card plan ${p.featured ? 'featured' : ''}`}>
+    {p.featured && <span className="badge">Meest gekozen</span>}
+    <h3>{p.name}</h3><div className="amount">{euro(p.price)}</div>
+    <ul>{FEATURES(p.count, p.kind).map((f) => <li key={f}>{f}</li>)}</ul>
+    <button className={`btn ${p.featured ? 'primary' : 'ghost'}`} onClick={() => onBuy(p.id)}>Kies dit pakket</button>
+  </article>
+)
+
 const Pricing = ({ onBuy }) => (
   <section id="prijzen" className="sec">
     <h2>Prijzen</h2><p className="lead">Kies het pakket dat bij jou past. Eenmalige prijs, per pakket.</p>
-    <div className="grid price">
-      {PACKAGES.map((p) => (
-        <article key={p.id} className={`card plan ${p.featured ? 'featured' : ''}`}>
-          {p.featured && <span className="badge">Meest gekozen</span>}
-          <h3>{p.name}</h3><div className="amount">{euro(p.price)}</div>
-          <ul>{FEATURES(p.count).map((f) => <li key={f}>{f}</li>)}</ul>
-          <button className={`btn ${p.featured ? 'primary' : 'ghost'}`} onClick={() => onBuy(p.id)}>Kies dit pakket</button>
-        </article>
-      ))}
-    </div>
+    <h3 className="group">Advertenties</h3>
+    <div className="grid price">{PACKAGES.filter((p) => p.kind === 'ad').map((p) => <Plan key={p.id} p={p} onBuy={onBuy} />)}</div>
+    <h3 className="group">Posters</h3>
+    <div className="grid price two">{PACKAGES.filter((p) => p.kind === 'poster').map((p) => <Plan key={p.id} p={p} onBuy={onBuy} />)}</div>
   </section>
 )
 
@@ -87,7 +90,7 @@ const How = () => (
   <section id="hoe" className="sec">
     <h2>Hoe werkt het?</h2>
     <ol className="grid steps">
-      {[['Kies je pakket', 'Selecteer 1, 2 of 3 advertenties.'], ['Upload je reclame', 'Stuur je afbeelding en gegevens in.'], ['ESGT verwerkt en toont je reclame', 'Wij zorgen voor een professionele weergave.']].map(([t, d], i) => (
+      {[['Kies je pakket', 'Kies een advertentiepakket of posters.'], ['Upload je reclame', 'Stuur je afbeelding en gegevens in.'], ['ESGT verwerkt en toont je reclame', 'Wij zorgen voor een professionele weergave.']].map(([t, d], i) => (
         <li key={t} className="card step"><span className="num">{i + 1}</span><h3>{t}</h3><p>{d}</p></li>
       ))}
     </ol>
@@ -166,7 +169,7 @@ function Order({ initial, onClose }) {
     if (!v.name.trim()) er.name = 'Vul je naam in.'
     if (!v.company.trim()) er.company = 'Vul je bedrijfsnaam in.'
     if (!EMAIL_RE.test(v.email)) er.email = 'Vul een geldig e-mailadres in.'
-    if (!file) er.file = 'Upload je reclame-afbeelding.'
+    if (!file && pkg.kind !== 'poster') er.file = 'Upload je reclame-afbeelding.'
     setE(er); if (!Object.keys(er).length) setStep('review')
   }
   async function send() {
@@ -174,21 +177,21 @@ function Order({ initial, onClose }) {
     try { setRes(await submitOrder({ ...v, packageName: pkg.name, ads: pkg.count, price: pkg.price, image: file })); setStep('done') }
     catch (x) { setRes(x.message); setStep('error') }
   }
-  if (step === 'done') return <Modal title="Bestelling ontvangen" onClose={onClose}><p>Bedankt! We nemen contact met je op via {v.email}.</p>{!ATTACHMENTS_ENABLED && <p>Let op: je afbeelding is nog niet meegestuurd. We vragen je er per e-mail om.</p>}<button className="btn primary" onClick={onClose}>Sluiten</button></Modal>
+  if (step === 'done') return <Modal title="Bestelling ontvangen" onClose={onClose}><p>Bedankt! We nemen contact met je op via {v.email}.</p>{!ATTACHMENTS_ENABLED && file && <p>Let op: je afbeelding is nog niet meegestuurd. We vragen je er per e-mail om.</p>}<button className="btn primary" onClick={onClose}>Sluiten</button></Modal>
   if (step === 'review' || step === 'sending' || step === 'error') return (
     <Modal title="Overzicht" onClose={onClose}>
       <dl className="sum">
-        <dt>Pakket</dt><dd>{pkg.name}</dd><dt>Aantal advertenties</dt><dd>{pkg.count}</dd><dt>Prijs</dt><dd>{euro(pkg.price)}</dd>
+        <dt>Pakket</dt><dd>{pkg.name}</dd><dt>Aantal</dt><dd>{pkg.count}</dd><dt>Prijs</dt><dd>{euro(pkg.price)}</dd>
         <dt>Naam</dt><dd>{v.name}</dd><dt>Bedrijf</dt><dd>{v.company}</dd><dt>E-mail</dt><dd>{v.email}</dd>
         {v.phone && <><dt>Telefoon</dt><dd>{v.phone}</dd></>}{v.link && <><dt>Website/social</dt><dd>{v.link}</dd></>}{v.note && <><dt>Extra info</dt><dd>{v.note}</dd></>}
       </dl>
-      {preview && <img className="thumb" src={preview} alt="Voorbeeld van je reclame" />}
+      {preview && <img className="thumb" src={preview} alt="Voorbeeld van je afbeelding" />}
       {step === 'error' && <p className="err" role="alert">{res === 'NO_BACKEND' ? 'Je bestelling is niet verzonden en er is niets betaald: er is nog geen backend of betaalprovider gekoppeld (zie src/lib/api.js).' : 'Verzenden mislukt. Probeer het opnieuw.'}</p>}
       <div className="row"><button className="btn ghost" onClick={() => setStep('form')}>Terug</button><button className="btn primary" disabled={step === 'sending'} onClick={send}>{step === 'sending' ? 'Versturen…' : 'Bestelling versturen'}</button></div>
     </Modal>
   )
   return (
-    <Modal title="Bestel je advertentiepakket" onClose={onClose}>
+    <Modal title="Bestel je pakket" onClose={onClose}>
       <form onSubmit={review} noValidate className="orderform">
         <Field id="o-pkg" label="Pakket"><select id="o-pkg" value={v.pkg} onChange={set('pkg')}>{PACKAGES.map((p) => <option key={p.id} value={p.id}>{p.name} – {euro(p.price)}</option>)}</select></Field>
         <Field id="o-name" label="Naam *" error={e.name}><input id="o-name" value={v.name} onChange={set('name')} autoComplete="name" aria-invalid={!!e.name} /></Field>
@@ -196,9 +199,9 @@ function Order({ initial, onClose }) {
         <Field id="o-email" label="E-mailadres *" error={e.email}><input id="o-email" type="email" value={v.email} onChange={set('email')} autoComplete="email" aria-invalid={!!e.email} /></Field>
         <Field id="o-phone" label="Telefoonnummer (optioneel)"><input id="o-phone" type="tel" value={v.phone} onChange={set('phone')} autoComplete="tel" /></Field>
         <Field id="o-link" label="Website/social media (optioneel)"><input id="o-link" value={v.link} onChange={set('link')} /></Field>
-        <Field id="o-file" label="Reclame-afbeelding * (max 5 MB)" error={e.file}><input id="o-file" type="file" accept="image/*" onChange={pick} aria-invalid={!!e.file} /></Field>
-        {preview && <img className="thumb" src={preview} alt="Voorbeeld van je reclame" />}
-        <Field id="o-note" label="Extra informatie (optioneel)"><textarea id="o-note" rows="3" value={v.note} onChange={set('note')} /></Field>
+        <Field id="o-file" label={pkg.kind === 'poster' ? 'Logo of afbeelding (optioneel, max 5 MB)' : 'Reclame-afbeelding * (max 5 MB)'} error={e.file}><input id="o-file" type="file" accept="image/*" onChange={pick} aria-invalid={!!e.file} /></Field>
+        {preview && <img className="thumb" src={preview} alt="Voorbeeld van je afbeelding" />}
+        <Field id="o-note" label={pkg.kind === 'poster' ? 'Wat moet er op de poster staan? Welke stijl? (optioneel)' : 'Extra informatie (optioneel)'}><textarea id="o-note" rows="3" value={v.note} onChange={set('note')} /></Field>
         <button className="btn primary">Naar overzicht</button>
       </form>
     </Modal>
